@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using MVCVendasWeb.Data;
 namespace MVCVendasWeb
 {
     public class Program
@@ -5,6 +8,8 @@ namespace MVCVendasWeb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<MVCVendasWebContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("MVCVendasWebContext") ?? throw new InvalidOperationException("Connection string 'MVCVendasWebContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
