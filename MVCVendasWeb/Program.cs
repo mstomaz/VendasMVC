@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MVCVendasWeb.Data;
+using Pomelo.EntityFrameworkCore.MySql;
+
 namespace MVCVendasWeb
 {
     public class Program
@@ -8,8 +10,10 @@ namespace MVCVendasWeb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<MVCVendasWebContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("MVCVendasWebContext") ?? throw new InvalidOperationException("Connection string 'MVCVendasWebContext' not found.")));
+
+            builder.Services.AddDbContext<DepartmentsContext>(options =>
+                options.UseMySql(builder.Configuration.GetConnectionString("MVCVendasWebContext"), new MySqlServerVersion(new Version(9, 1, 0))
+            ));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

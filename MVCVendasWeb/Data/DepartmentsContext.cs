@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MVCVendasWeb.Models;
 
 namespace MVCVendasWeb.Data
 {
-    public class MVCVendasWebContext : DbContext
+    public class DepartmentsContext : DbContext
     {
-        public MVCVendasWebContext (DbContextOptions<MVCVendasWebContext> options)
+        public DepartmentsContext (DbContextOptions<DepartmentsContext> options)
             : base(options)
         {
         }
 
-        public DbSet<MVCVendasWeb.Models.Department> Department { get; set; } = default!;
+        public DbSet<Department> Department { get; set; } = default!;
     }
 }
