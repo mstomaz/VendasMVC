@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MVCVendasWeb.Models;
 
-namespace MVCVendasWeb.Data
+namespace MVCVendasWeb.Models
 {
     public class MVCVendasWebContext : DbContext
     {
@@ -11,7 +11,7 @@ namespace MVCVendasWeb.Data
         }
 
         public DbSet<Department> Department { get; set; } = default!;
-        public DbSet<Department> Seller { get; set; } = default!;
-        public DbSet<Department> SalesRecord { get; set; } = default!;
+        public DbSet<Seller> Seller { get; set; } = default!;
+        public DbSet<SalesRecord> SalesRecord { get; set; } = default!;
     }
 }
