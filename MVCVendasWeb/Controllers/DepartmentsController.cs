@@ -7,9 +7,9 @@ namespace MVCVendasWeb.Controllers
 {
     public class DepartmentsController : Controller
     {
-        private readonly DepartmentsContext _context;
+        private readonly MVCVendasWebContext _context;
 
-        public DepartmentsController(DepartmentsContext context)
+        public DepartmentsController(MVCVendasWebContext context)
         {
             _context = context;
         }

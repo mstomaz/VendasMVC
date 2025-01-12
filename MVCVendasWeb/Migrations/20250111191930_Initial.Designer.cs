@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVCVendasWeb.Migrations
 {
-    [DbContext(typeof(DepartmentsContext))]
+    [DbContext(typeof(MVCVendasWebContext))]
     [Migration("20250111191930_Initial")]
     partial class Initial
     {
