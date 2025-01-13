@@ -1,4 +1,5 @@
 ﻿using MVCVendasWeb.Models.Shared;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace MVCVendasWeb.Models
@@ -18,9 +19,15 @@ namespace MVCVendasWeb.Models
         }
 
         public int Id { get; private set; }
+
+        [DisplayName("Nome")]
         public string Name { get; set; } = null!;
         public string Email { get; set; } = null!;
+
+        [DisplayName("Data de aniversário")]
         public DateOnly BirthDate { get; set; }
+
+        [DisplayName("Salário base")]
         public double BaseSalary { get; set; }
         public Department Department { get; private set; } = null!;
 

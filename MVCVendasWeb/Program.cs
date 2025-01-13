@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MVCVendasWeb.Data;
 using MVCVendasWeb.Models;
+using MVCVendasWeb.Services;
 
 namespace MVCVendasWeb
 {
@@ -15,6 +16,7 @@ namespace MVCVendasWeb
             ));
 
             builder.Services.AddScoped<SeedingService>();
+            builder.Services.AddScoped<SellerService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
