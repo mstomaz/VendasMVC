@@ -7,15 +7,15 @@
 <h1>Departamentos</h1>
 
 <p>
-    <a asp-action="Create">Criar novo</a>
+    <a class="btn btn-secondary" asp-action="Create">Criar novo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th class="bg-success">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
+            <th class="bg-success"></th>
         </tr>
     </thead>
     <tbody>

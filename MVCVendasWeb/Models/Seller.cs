@@ -1,6 +1,7 @@
 ﻿using MVCVendasWeb.Models.Shared;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using System.Globalization;
 
 namespace MVCVendasWeb.Models
 {
@@ -8,7 +9,7 @@ namespace MVCVendasWeb.Models
     {
         public Seller() { }
 
-        public Seller(int id, string name, string email, DateOnly birthDate, double baseSalary, Department department)
+        public Seller(int id, string name, string email, DateOnly birthDate, double baseSalary, Department? department)
         {
             Id = id;
             Name = name;
@@ -24,12 +25,12 @@ namespace MVCVendasWeb.Models
         public string Name { get; set; } = null!;
         public string Email { get; set; } = null!;
 
-        [DisplayName("Data de aniversário")]
+        [DisplayName("Data de nascimento")]
         public DateOnly BirthDate { get; set; }
 
         [DisplayName("Salário base")]
         public double BaseSalary { get; set; }
-        public Department Department { get; private set; } = null!;
+        public Department? Department { get; private set; }
 
         [JsonIgnore]
         public ICollection<SalesRecord> Sales { get; private set; } = [];
