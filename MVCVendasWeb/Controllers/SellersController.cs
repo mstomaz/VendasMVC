@@ -26,9 +26,9 @@ namespace MVCVendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller seller)
+        public async Task<IActionResult> Create(Seller seller)
         {
-            _sellerService.Insert(seller);
+            await _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
         }
     }

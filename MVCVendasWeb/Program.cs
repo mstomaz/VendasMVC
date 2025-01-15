@@ -12,7 +12,8 @@ namespace MVCVendasWeb
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDbContext<MVCVendasWebContext>(options =>
-                options.UseMySql(builder.Configuration.GetConnectionString("MVCVendasWebContext"), new MySqlServerVersion(new Version(9, 1, 0))
+                options.UseMySql(builder.Configuration.GetConnectionString("MVCVendasWebContext"), 
+                ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MVCVendasWebContext"))
             ));
 
             builder.Services.AddScoped<SeedingService>();
