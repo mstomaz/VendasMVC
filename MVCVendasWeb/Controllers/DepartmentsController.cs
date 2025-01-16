@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVCVendasWeb.Models;
+using MVCVendasWeb.Services;
 
 namespace MVCVendasWeb.Controllers
 {

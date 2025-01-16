@@ -31,6 +31,8 @@ namespace MVCVendasWeb.Models
         [DisplayName("Salário base")]
         public double BaseSalary { get; set; }
         public Department? Department { get; set; }
+
+        [DisplayName("Departamento")]
         public int DepartmentId { get; set; }
 
         [JsonIgnore]
