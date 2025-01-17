@@ -36,5 +36,35 @@ namespace MVCVendasWeb.Controllers
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var seller = _sellerService.Get(id.Value);
+
+            if (seller == null)
+                return NotFound();
+
+            seller.Department = _departmentService.Get(seller.DepartmentId);
+
+            return View(seller);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            var seller = _sellerService.Get(id);
+
+            var department = _departmentService.Get(seller!.DepartmentId);
+            department.RemoveSeller(seller);
+
+            _sellerService.Delete(id);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

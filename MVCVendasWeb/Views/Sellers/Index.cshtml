@@ -44,9 +44,9 @@
                     @Html.DisplayFor(modelItem => item.BaseSalary)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="item.Id">Editar</a>
-                    <a asp-action="Details" asp-route-id="item.Id">Detalhes</a>
-                    <a asp-action="Delete" asp-route-id="item.Id">Apagar</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
                 </td>
             </tr>
         }

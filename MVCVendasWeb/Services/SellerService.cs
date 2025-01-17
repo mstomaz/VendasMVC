@@ -24,5 +24,19 @@ namespace MVCVendasWeb.Services
             _context.Seller.Add(obj);
             _context.SaveChanges();
         }
+
+        public Seller? Get(int id)
+        {
+            return _context.Seller.Find(id)!;
+        }
+
+        public void Delete(int id)
+        {
+            if (_context.Seller.Find(id) is null)
+                return;
+
+            _context.Seller.Remove(Get(id)!);
+            _context.SaveChanges();
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using MVCVendasWeb.Models.Shared;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
-using System.Globalization;
 
 namespace MVCVendasWeb.Models
 {

@@ -15,5 +15,10 @@ namespace MVCVendasWeb.Services
         {
             return _context.Department.OrderBy(dp => dp.Name).ToList();
         }
+
+        public Department Get(int id)
+        {
+            return _context.Department.FirstOrDefault(dp => dp.Id == id);
+        }
     }
 }
