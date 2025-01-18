@@ -18,7 +18,7 @@ namespace MVCVendasWeb.Models
             Department = department;
         }
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         [DisplayName("Nome")]
         public string Name { get; set; } = null!;
@@ -35,7 +35,7 @@ namespace MVCVendasWeb.Models
         public int DepartmentId { get; set; }
 
         [JsonIgnore]
-        public ICollection<SalesRecord> Sales { get; private set; } = [];
+        public ICollection<SalesRecord> Sales { get; set; } = [];
 
         public void AddSale(SalesRecord record)
         {

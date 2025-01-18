@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MVCVendasWeb.Models;
+using MVCVendasWeb.Services.Exceptions;
 
 namespace MVCVendasWeb.Services
 {
@@ -40,5 +41,22 @@ namespace MVCVendasWeb.Services
             _context.Seller.Remove(Get(id)!);
             _context.SaveChanges();
         }
+
+        public void Update(Seller obj)
+        {
+            if (!_context.Seller.Any(x => x.Id == obj.Id))
+                throw new NotFoundException("Vendedor nao encontrado.");
+
+            try
+            {
+                _context.Update(obj);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new DbConcurrencyException(ex.Message);
+            }
+            _context.SaveChanges();
+        }
+
     }
 }

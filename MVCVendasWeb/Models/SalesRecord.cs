@@ -15,10 +15,10 @@ namespace MVCVendasWeb.Models
             Seller = seller;
         }
 
-        public int Id { get; private set; }
-        public DateTime Date { get; private set; }
-        public double Amount { get; private set; }
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public double Amount { get; set; }
         public SaleStatus Status { get; set; }
-        public Seller Seller { get; private set; } = null!;
+        public Seller Seller { get; set; } = null!;
     }
 }

@@ -12,7 +12,7 @@ namespace MVCVendasWeb.Models
             Name = name;
         }
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         [DisplayName("Nome")]
         public string Name{ get; set; } = null!;

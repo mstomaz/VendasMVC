@@ -2,6 +2,7 @@
 using MVCVendasWeb.Services;
 using MVCVendasWeb.Models;
 using MVCVendasWeb.Models.ViewModels;
+using MVCVendasWeb.Services.Exceptions;
 
 namespace MVCVendasWeb.Controllers
 {
@@ -75,6 +76,51 @@ namespace MVCVendasWeb.Controllers
                 return NotFound();
 
             return View(seller);
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var obj = _sellerService.Get(id.Value);
+
+            if (obj is null)
+                return NotFound();
+
+            List<Department> departments = _departmentService.GetAll();
+
+            SellerFormViewModel viewModel = new SellerFormViewModel
+            {
+                Seller = obj,
+                Departments = departments
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, [Bind(Prefix = "Seller")] Seller obj)
+        {
+            if (id != obj.Id)
+                return BadRequest();
+
+            try
+            {
+                _sellerService.Update(obj);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound();
+            }
+            catch (DbConcurrencyException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest();
+            }
         }
     }
 }
