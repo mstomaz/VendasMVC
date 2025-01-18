@@ -27,7 +27,9 @@ namespace MVCVendasWeb.Services
 
         public Seller? Get(int id)
         {
-            return _context.Seller.Find(id)!;
+            return _context.Seller
+                .Include(seller => seller.Department)
+                .FirstOrDefault(s => s.Id == id);
         }
 
         public void Delete(int id)

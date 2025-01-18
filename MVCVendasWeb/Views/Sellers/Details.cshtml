@@ -1,11 +1,10 @@
 ﻿@model Seller
 
 @{
-    ViewData["Title"] = "Apagar";
+    ViewData["Title"] = "Detalhes";
 }
 
 <h1>@ViewData["Title"]</h1>
-<h3>Tem certeza de que deseja apagar esse registro?</h3>
 <div>
     <h4>Vendedor</h4>
     <hr />
@@ -41,9 +40,10 @@
             @Html.DisplayFor(m => m.Department!.Name)
         </dd>
     </dl>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Apagar" class="btn btn-danger" />
-    </form>
+</div>
+<div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary display-block">Editar</a>
+    </div>
     <a asp-action="Index">Voltar à lista de vendedores</a>
 </div>

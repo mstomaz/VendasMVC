@@ -48,8 +48,6 @@ namespace MVCVendasWeb.Controllers
             if (seller == null)
                 return NotFound();
 
-            seller.Department = _departmentService.Get(seller.DepartmentId);
-
             return View(seller);
         }
 
@@ -65,6 +63,18 @@ namespace MVCVendasWeb.Controllers
             _sellerService.Delete(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var seller = _sellerService.Get(id.Value);
+            if (seller is null)
+                return NotFound();
+
+            return View(seller);
         }
     }
 }
