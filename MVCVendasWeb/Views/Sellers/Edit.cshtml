@@ -27,7 +27,7 @@
             <div class="form-control">
                 <label asp-for="Seller.BaseSalary" class="form-label"></label>
                 <div class="d-flex align-items-center">
-                    <span class="me-2">R$</span>
+                    <span class="me-2">@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
                     <input asp-for="Seller.BaseSalary" class="form-control flex-grow-1" />
                 </div>
             </div>

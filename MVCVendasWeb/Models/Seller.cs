@@ -1,5 +1,6 @@
 ﻿using MVCVendasWeb.Models.Shared;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace MVCVendasWeb.Models
@@ -22,12 +23,15 @@ namespace MVCVendasWeb.Models
 
         [DisplayName("Nome")]
         public string Name { get; set; } = null!;
+
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = null!;
 
         [DisplayName("Data de nascimento")]
         public DateOnly BirthDate { get; set; }
 
         [DisplayName("Salário base")]
+        [DataType(DataType.Currency)]
         public double BaseSalary { get; set; }
         public Department? Department { get; set; }
 

@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MVCVendasWeb.Data;
 using MVCVendasWeb.Models;
 using MVCVendasWeb.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace MVCVendasWeb
 {
@@ -50,6 +52,16 @@ namespace MVCVendasWeb
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            var culture = new CultureInfo("pt-BR");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(culture),
+                SupportedCultures = [culture],
+                SupportedUICultures = [culture]
+            };
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
