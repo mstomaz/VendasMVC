@@ -3,6 +3,7 @@ using MVCVendasWeb.Services;
 using MVCVendasWeb.Models;
 using MVCVendasWeb.Models.ViewModels;
 using MVCVendasWeb.Services.Exceptions;
+using System.Diagnostics;
 
 namespace MVCVendasWeb.Controllers
 {
@@ -42,12 +43,12 @@ namespace MVCVendasWeb.Controllers
         public IActionResult Delete(int? id)
         {
             if (id == null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id não fornecido." });
 
             var seller = _sellerService.Get(id.Value);
 
             if (seller == null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Vendedor não encontrado." });
 
             return View(seller);
         }
@@ -69,11 +70,11 @@ namespace MVCVendasWeb.Controllers
         public IActionResult Details(int? id)
         {
             if (id == null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id não fornecido." });
 
             var seller = _sellerService.Get(id.Value);
             if (seller is null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Vendedor não encontrado." });
 
             return View(seller);
         }
@@ -81,12 +82,12 @@ namespace MVCVendasWeb.Controllers
         public IActionResult Edit(int? id)
         {
             if (id == null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id não fornecido." });
 
             var obj = _sellerService.Get(id.Value);
 
             if (obj is null)
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Vendedor não encontrado" });
 
             List<Department> departments = _departmentService.GetAll();
 
@@ -104,23 +105,29 @@ namespace MVCVendasWeb.Controllers
         public IActionResult Edit(int id, [Bind(Prefix = "Seller")] Seller obj)
         {
             if (id != obj.Id)
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { Message = "IDs não correspondem." });
 
             try
             {
                 _sellerService.Update(obj);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { ex.Message });
             }
-            catch (DbConcurrencyException ex)
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
             {
-                Console.WriteLine(ex.Message);
-                return BadRequest();
-            }
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
         }
     }
 }
