@@ -15,7 +15,7 @@ namespace MVCVendasWeb.Models
         public int Id { get; set; }
 
         [DisplayName("Nome")]
-        public string Name{ get; set; } = null!;
+        public string? Name { get; set; }
         public ICollection<Seller> Sellers { get; set; } = [];
 
         public void AddSeller(Seller seller)

@@ -40,6 +40,8 @@ namespace MVCVendasWeb.Models
         [DisplayName("Salário base")]
         [DataType(DataType.Currency)]
         public double? BaseSalary { get; set; }
+
+        [Display(Name = "Departamento")]
         public Department? Department { get; set; }
 
         [DisplayName("Departamento")]

@@ -24,6 +24,7 @@ namespace MVCVendasWeb
             builder.Services.AddScoped<SeedingService>();
             builder.Services.AddScoped<SellerService>();
             builder.Services.AddScoped<DepartmentService>();
+            builder.Services.AddScoped<SalesRecordService>();
 
             builder.Services.Configure<MvcOptions>(options =>
             {
