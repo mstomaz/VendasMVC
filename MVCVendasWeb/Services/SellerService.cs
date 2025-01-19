@@ -36,11 +36,18 @@ namespace MVCVendasWeb.Services
 
         public async Task DeleteAsync(int id)
         {
-            if (_context.Seller.Find(id) is null)
+            if (await _context.Seller.FindAsync(id) is null)
                 return;
 
-            _context.Seller.Remove(await GetAsync(id));
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Seller.Remove(await GetAsync(id));
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new IntegrityException(ex.Message, ex);
+            }
         }
 
         public async Task UpdateAsync(Seller obj)
