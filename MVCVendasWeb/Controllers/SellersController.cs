@@ -18,37 +18,37 @@ namespace MVCVendasWeb.Controllers
             _departmentService = departmentService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_sellerService.GetAll());
+            return View(await _sellerService.GetAllAsync());
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departments = _departmentService.GetAll();
+            var departments = await _departmentService.GetAllAsync();
             var viewModel = new SellerFormViewModel { Departments = departments };
             return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller seller)
+        public async Task<IActionResult> Create(Seller seller)
         {
             if (!ModelState.IsValid)
                 return View(seller);
 
-            _sellerService.Insert(seller);
+            await _sellerService.InsertAsync(seller);
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
                 return RedirectToAction(nameof(Error), new { Message = "Id não fornecido." });
 
-            var seller = _sellerService.Get(id.Value);
+            var seller = await _sellerService.GetAsync(id.Value);
 
             if (seller == null)
                 return RedirectToAction(nameof(Error), new { Message = "Vendedor não encontrado." });
@@ -58,41 +58,41 @@ namespace MVCVendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var seller = _sellerService.Get(id);
+            var seller = await _sellerService.GetAsync(id);
 
-            var department = _departmentService.Get(seller!.DepartmentId);
+            var department = await _departmentService.GetAsync(seller!.DepartmentId);
             department.RemoveSeller(seller);
 
-            _sellerService.Delete(id);
+            await _sellerService.DeleteAsync(id);
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
                 return RedirectToAction(nameof(Error), new { Message = "Id não fornecido." });
 
-            var seller = _sellerService.Get(id.Value);
+            var seller = await _sellerService.GetAsync(id.Value);
             if (seller is null)
                 return RedirectToAction(nameof(Error), new { Message = "Vendedor não encontrado." });
 
             return View(seller);
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
                 return RedirectToAction(nameof(Error), new { Message = "Id não fornecido." });
 
-            var obj = _sellerService.Get(id.Value);
+            var obj = await _sellerService.GetAsync(id.Value);
 
             if (obj is null)
                 return RedirectToAction(nameof(Error), new { Message = "Vendedor não encontrado" });
 
-            List<Department> departments = _departmentService.GetAll();
+            List<Department> departments = await _departmentService.GetAllAsync();
 
             SellerFormViewModel viewModel = new()
             {
@@ -105,11 +105,11 @@ namespace MVCVendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind(Prefix = "Seller")] Seller obj)
+        public async Task<IActionResult> Edit(int id, [Bind(Prefix = "Seller")] Seller obj)
         {
             if (!ModelState.IsValid)
             {
-                var departments = _departmentService.GetAll();
+                var departments = await _departmentService.GetAllAsync();
                 var viewModel = new SellerFormViewModel
                 {
                     Departments = departments,
@@ -124,7 +124,7 @@ namespace MVCVendasWeb.Controllers
 
             try
             {
-                _sellerService.Update(obj);
+                await _sellerService.UpdateAsync(obj);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

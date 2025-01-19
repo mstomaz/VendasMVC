@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MVCVendasWeb.Models;
 using MVCVendasWeb.Services.Exceptions;
 
@@ -13,38 +14,38 @@ namespace MVCVendasWeb.Services
             _context = context;
         }
 
-        public IEnumerable<Seller> GetAll()
+        public async Task<IEnumerable<Seller>> GetAllAsync()
         {
-            return _context.Seller.ToList();
+            return await _context.Seller.ToListAsync();
         }
 
-        public void Insert(Seller obj)
+        public async Task InsertAsync(Seller obj)
         {
             ArgumentNullException.ThrowIfNull(obj, nameof(obj));
 
             _context.Seller.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Seller? Get(int id)
+        public async Task<Seller?> GetAsync(int id)
         {
-            return _context.Seller
+            return await _context.Seller
                 .Include(seller => seller.Department)
-                .FirstOrDefault(s => s.Id == id);
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             if (_context.Seller.Find(id) is null)
                 return;
 
-            _context.Seller.Remove(Get(id)!);
-            _context.SaveChanges();
+            _context.Seller.Remove(await GetAsync(id));
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Seller obj)
+        public async Task UpdateAsync(Seller obj)
         {
-            if (!_context.Seller.Any(x => x.Id == obj.Id))
+            if (!await _context.Seller.AnyAsync(x => x.Id == obj.Id))
                 throw new NotFoundException("Vendedor nao encontrado.");
 
             try
@@ -55,7 +56,7 @@ namespace MVCVendasWeb.Services
             {
                 throw new DbConcurrencyException(ex.Message);
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using MVCVendasWeb.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MVCVendasWeb.Models;
 
 namespace MVCVendasWeb.Services
 {
@@ -11,14 +12,14 @@ namespace MVCVendasWeb.Services
             _context = context;
         }  
 
-        public List<Department> GetAll()
+        public async Task<List<Department>> GetAllAsync()
         {
-            return _context.Department.OrderBy(dp => dp.Name).ToList();
+            return await _context.Department.OrderBy(dp => dp.Name).ToListAsync();
         }
 
-        public Department Get(int id)
+        public async Task<Department> GetAsync(int id)
         {
-            return _context.Department.FirstOrDefault(dp => dp.Id == id);
+            return await _context.Department.FindAsync(id);
         }
     }
 }
