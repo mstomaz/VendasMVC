@@ -35,6 +35,9 @@ namespace MVCVendasWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
+            if (!ModelState.IsValid)
+                return View(seller);
+
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
         }
@@ -91,7 +94,7 @@ namespace MVCVendasWeb.Controllers
 
             List<Department> departments = _departmentService.GetAll();
 
-            SellerFormViewModel viewModel = new SellerFormViewModel
+            SellerFormViewModel viewModel = new()
             {
                 Seller = obj,
                 Departments = departments
@@ -104,6 +107,18 @@ namespace MVCVendasWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind(Prefix = "Seller")] Seller obj)
         {
+            if (!ModelState.IsValid)
+            {
+                var departments = _departmentService.GetAll();
+                var viewModel = new SellerFormViewModel
+                {
+                    Departments = departments,
+                    Seller = obj
+                };
+
+                return View(obj);
+            }
+
             if (id != obj.Id)
                 return RedirectToAction(nameof(Error), new { Message = "IDs não correspondem." });
 

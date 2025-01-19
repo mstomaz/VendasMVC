@@ -21,44 +21,52 @@ namespace MVCVendasWeb.Models
 
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "O campo '{0}' não pode ser vazio.")]
         [DisplayName("Nome")]
-        public string Name { get; set; } = null!;
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "O {0} deve ter entre {2} e {1} letras.")]
+        public string? Name { get; set; }
 
+        [Required(ErrorMessage = "O campo '{0}' não pode ser vazio.")]
+        [EmailAddress(ErrorMessage = "{0} inválido.")]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; } = null!;
+        public string? Email { get; set; }
 
+        [Required(ErrorMessage = "O campo '{0}' não pode ser vazio.")]
         [DisplayName("Data de nascimento")]
         public DateOnly BirthDate { get; set; }
 
+        [Required(ErrorMessage = "O campo '{0}' não pode ser vazio.")]
+        [Range(600, 50000, ErrorMessage = "O {0} deve estar entre {1} e {2}.")]
         [DisplayName("Salário base")]
         [DataType(DataType.Currency)]
-        public double BaseSalary { get; set; }
+        public double? BaseSalary { get; set; }
         public Department? Department { get; set; }
 
         [DisplayName("Departamento")]
         public int DepartmentId { get; set; }
 
         [JsonIgnore]
-        public ICollection<SalesRecord> Sales { get; set; } = [];
+        public ICollection<SalesRecord>? Sales { get; set; } = [];
 
         public void AddSale(SalesRecord record)
         {
             if (record != null)
-                Sales.Add(record);
+                Sales!.Add(record);
         }
 
         public void RemoveSale(SalesRecord record)
         {
             if (record != null)
-                Sales.Remove(record);
+                Sales!.Remove(record);
         }
 
         public double TotalSalesAmount(DateTime startDate, DateTime tillDate)
         {
             Helper.ValidateSalesDates(startDate, tillDate);
 
-            return Sales.Where(s => s.Date >= startDate && s.Date <= tillDate) 
-                .Sum(s => s.Amount);
+            return Sales.Where(s => s.Date >= startDate && s.Date <= tillDate)
+                .DefaultIfEmpty()
+                .Sum(s => s!.Amount);
         }
     }
 }

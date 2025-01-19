@@ -4,6 +4,7 @@ using MVCVendasWeb.Models;
 using MVCVendasWeb.Services;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MVCVendasWeb
 {
@@ -12,6 +13,8 @@ namespace MVCVendasWeb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             builder.Services.AddDbContext<MVCVendasWebContext>(options =>
                 options.UseMySql(builder.Configuration.GetConnectionString("MVCVendasWebContext"), 
@@ -22,10 +25,23 @@ namespace MVCVendasWeb
             builder.Services.AddScoped<SellerService>();
             builder.Services.AddScoped<DepartmentService>();
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.Configure<MvcOptions>(options =>
+            {
+                options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor(
+                    (fieldName) => $"O campo '{fieldName}' deve ser um número.");
+            });
+
+            builder.Services.AddControllersWithViews().AddDataAnnotationsLocalization();
 
             var app = builder.Build();
+
+            var supportedCultures = new[] { "en-US", "pt-BR" };
+            var localizationOptions = new RequestLocalizationOptions()
+                .SetDefaultCulture("pt-BR")
+                .AddSupportedCultures(supportedCultures)
+                .AddSupportedUICultures(supportedCultures);
+
+            app.UseRequestLocalization(localizationOptions);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -52,16 +68,6 @@ namespace MVCVendasWeb
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            var culture = new CultureInfo("pt-BR");
-            var localizationOptions = new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture(culture),
-                SupportedCultures = [culture],
-                SupportedUICultures = [culture]
-            };
-
-            app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
