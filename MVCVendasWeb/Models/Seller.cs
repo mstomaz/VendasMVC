@@ -48,7 +48,7 @@ namespace MVCVendasWeb.Models
         public int DepartmentId { get; set; }
 
         [JsonIgnore]
-        public ICollection<SalesRecord>? Sales { get; set; } = [];
+        public List<SalesRecord>? Sales { get; set; } = [];
 
         public void AddSale(SalesRecord record)
         {
@@ -66,9 +66,12 @@ namespace MVCVendasWeb.Models
         {
             Helper.ValidateSalesDates(startDate, tillDate);
 
-            return Sales.Where(s => s.Date >= startDate && s.Date <= tillDate)
-                .DefaultIfEmpty()
-                .Sum(s => s!.Amount);
+            var salesByDate = Sales.Where(s => s.Date >= startDate && s.Date <= tillDate);
+
+            if (salesByDate.Any())
+                return salesByDate.Sum(s => s.Amount);
+
+            return 0;
         }
     }
 }
